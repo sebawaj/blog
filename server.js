@@ -10,5 +10,5 @@ app.set("view engine", "ejs");
 app.use("/", routes);
 
 app.listen(port, () => {
-  console.log(`Listening http://localhost:${port}`);
+  console.log(`Listening... http://localhost:${port}`);
 });
