@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const mysql = require("mysql2");
-const dotenv = require("dotenv");
+const dotenv = require("dotenv").config();
 const port = process.env.APP_PORT;
 const routes = require("./routes/routes");
 
