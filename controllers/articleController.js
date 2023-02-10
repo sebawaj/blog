@@ -1,8 +1,11 @@
 const Article = require("../models/Article");
+const Comment = require("../models/Comment");
 const { format } = require("date-fns");
 
 const index = async (req, res) => {
   const articles = await Article.findAll();
+  const comments = await Comment.findAll();
+
   const articleId = req.params.id;
   const currentUrl = req.originalUrl;
   let articleDate = "";
@@ -18,7 +21,7 @@ const index = async (req, res) => {
     return res.render("home", { articles, articleDate });
   } else if (currentUrl === `/article/${articleId}`) {
     const article = await Article.findByPk(articleId);
-    return res.render("article", { article, articleDate });
+    return res.render("article", { article, articleDate, comments });
   }
 };
 
