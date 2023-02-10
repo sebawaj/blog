@@ -1,9 +1,21 @@
 const Article = require("../models/Article");
+const { format } = require("date-fns");
 
 const index = async (req, res) => {
   const articles = await Article.findAll();
-
-  return res.render("admin", { articles });
+  const currentUrl = req.originalUrl;
+  let articleDate = "";
+  for (article of articles) {
+    articleDate = format(
+      article.dataValues.createdAt,
+      "MMMM do yyyy, h:mm:ss a"
+    );
+  }
+  if (currentUrl === "/admin") {
+    return res.render("admin", { articles, articleDate });
+  } else if (currentUrl === "/") {
+    return res.render("home", { articles, articleDate });
+  }
 };
 
 const create = async (req, res) => {
