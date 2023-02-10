@@ -1,1 +1,7 @@
-/* Colocar aquí CSS "propio" */
+.hero-image {
+  background-image: url("/img/Hero_Images_for_eLearning53.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 50vh;
+  margin-top: 3.5rem;
+}
