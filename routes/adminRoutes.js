@@ -14,4 +14,6 @@ router.post("/admin/edit/:id", articleController.update);
 
 router.get("/admin/delete/:id", articleController.destroy);
 
+router.get("/api/articulos", articleController.apix);
+
 module.exports = router;

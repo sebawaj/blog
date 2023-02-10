@@ -22,8 +22,7 @@ const index = async (req, res) => {
   } else if (currentUrl === `/article/${articleId}`) {
     const article = await Article.findByPk(articleId);
     return res.render("article", { article, articleDate, comments });
-  }
-};
+  } };
 
 const create = async (req, res) => {
   return res.render("admin_create");
@@ -86,4 +85,9 @@ const destroy = async (req, res) => {
   return res.redirect("/admin");
 };
 
-module.exports = { index, edit, update, destroy, create, store };
+const apix = async (req, res) => {
+  const articles = await Article.findAll();
+  return res.json( { articles });
+}
+
+module.exports = { index, edit, update, destroy, create, store, apix }
