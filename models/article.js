@@ -15,11 +15,17 @@ class Article extends Model {
         content: {
           type: DataTypes.TEXT,
         },
+        image: {
+          type: DataTypes.BLOB,
+        },
+        author: {
+          type: DataTypes.STRING,
+        },
       },
       {
         sequelize,
         modelName: "article",
-      },
+      }
     );
 
     return Article;

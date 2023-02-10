@@ -1,16 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/User");
+const articleController = require("../controllers/articleController");
 
-router.get("/admin", async (req, res) => {
-  const user = await User.create({
-    firstname: "María",
-    lastname: "Pérez",
-  });
+router.get("/admin", articleController.index);
 
-  console.log(user);
+router.get("/admin/create", articleController.create);
 
-  return res.render("admin");
-});
+router.post("/admin", articleController.store);
+
+router.get("/admin/edit/:id", articleController.edit);
+
+router.post("/admin/edit/:id", articleController.update);
+
+router.get("/admin/delete/:id", articleController.destroy);
 
 module.exports = router;
