@@ -27,7 +27,7 @@
         </div>
         <form action="/article/<%= article.dataValues.id %>/create-comment" method="post" class="form-group mt-2">     
           <div>
-            <input type="text" id="username" name="user" class="form-control mb-3" placeholder="Name">
+            <input type="text" id="comment" name="username" class="form-control mb-3" placeholder="Name">
             <textarea id="comment" name="content" class="form-control mb-3" style="height: 150px"></textarea>
             <div class="d-grid gap-2">
               <button class="btn-primary btn mb-5">Send</button>
@@ -43,7 +43,7 @@
            <div>
             <% for (const comment of comments) {%>
                 <p>"<%= comment.content %>"</p>
-                <p style="font-family: 'Lora'; font-style: italic;">Luke Skywalker</p>
+                <p style="font-family: 'Lora'; font-style: italic;"><%= comment.username %></p>
                 <hr>
                 <% } %>
            </div>
