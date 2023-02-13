@@ -1,28 +1,47 @@
 const Article = require("../models/Article");
 const Comment = require("../models/Comment");
+const User = require("../models/User");
 const { format } = require("date-fns");
 
 const index = async (req, res) => {
   const articles = await Article.findAll();
-  const comments = await Comment.findAll();
-
   const articleId = req.params.id;
   const currentUrl = req.originalUrl;
+
   let articleDate = "";
   for (article of articles) {
-    articleDate = format(
-      article.dataValues.createdAt,
-      "MMMM do yyyy, h:mm:ss a"
-    );
+    articleDate = {
+      parsedCreatedAt: format(
+        article.dataValues.createdAt,
+        "MMMM do yyyy, h:mm:ss a"
+      ),
+      parsedUpdatedAt: format(
+        article.dataValues.updatedAt,
+        "MMMM do yyyy, h:mm:ss a"
+      ),
+    };
   }
+
   if (currentUrl === "/admin") {
     return res.render("admin", { articles, articleDate });
   } else if (currentUrl === "/") {
     return res.render("home", { articles, articleDate });
   } else if (currentUrl === `/article/${articleId}`) {
     const article = await Article.findByPk(articleId);
+    const comments = await Comment.findAll({
+      where: { article_id: articleId },
+      include: [
+        {
+          model: User,
+          as: "user",
+        },
+      ],
+    });
     return res.render("article", { article, articleDate, comments });
-  } };
+  } else if (currentUrl === "/api/articles") {
+    return res.json({ articles });
+  }
+};
 
 const create = async (req, res) => {
   return res.render("admin_create");
@@ -85,9 +104,4 @@ const destroy = async (req, res) => {
   return res.redirect("/admin");
 };
 
-const apix = async (req, res) => {
-  const articles = await Article.findAll();
-  return res.json( { articles });
-}
-
-module.exports = { index, edit, update, destroy, create, store, apix }
+module.exports = { index, edit, update, destroy, create, store };

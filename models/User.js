@@ -9,17 +9,14 @@ class User extends Model {
           primaryKey: true,
           autoIncrement: true,
         },
-        firstname: {
-          type: DataTypes.STRING,
-        },
-        lastname: {
+        username: {
           type: DataTypes.STRING,
         },
       },
       {
         sequelize,
         modelName: "user",
-      },
+      }
     );
     return User;
   }

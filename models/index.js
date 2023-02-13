@@ -19,10 +19,11 @@ User.initModel(sequelize);
 Comment.initModel(sequelize);
 Article.initModel(sequelize);
 
-/**
- * Luego de definir los modelos, se pueden establecer relaciones entre los
- * mismos (usando métodos como belongsTo, hasMany y belongsToMany)...
- */
+User.hasMany(Comment, { foreignKey: "user_id" });
+Comment.belongsTo(User, { foreignKey: "user_id" });
+
+Article.hasMany(Comment, { foreignKey: "article_id" });
+Comment.belongsTo(Article, { foreignKey: "article_id" });
 
 module.exports = {
   sequelize,

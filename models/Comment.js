@@ -7,9 +7,6 @@ class Comment extends Model {
         content: {
           type: DataTypes.TEXT,
         },
-        username: {
-          type: DataTypes.STRING,
-        },
       },
       {
         sequelize,

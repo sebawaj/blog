@@ -31,9 +31,18 @@
             <tbody>
               <% for(article of articles) {%>
                 <tr> <% for (key in article.dataValues) {%>
-                  <% if (key === "image") {%>
+                  <% if (key === "content") { %>
+                    <% const content = article[key] %>
+                    <% const wordLimit = 10; %>
+                    <% const shortenedText = content.split(" ").slice(0, wordLimit).join(" ") + "..."; %>
+                    <td><%=shortenedText%></td>
+                  <% } else if (key === "image") {%>
                     <td><img src="<%=article[key]%>" width="100px" alt="Article image"></td>
-                    <% } else { %>
+                    <% } else if (key === "createdAt") { %>
+                      <td><%=articleDate.parsedCreatedAt%></td>
+                    <% } else if (key === "updatedAt") { %>
+                      <td><%=articleDate.parsedUpdatedAt%></td>
+                     <%} else { %>
                     <td><%=article[key]%></td>
                     <% } %>
                     <% } %>  
