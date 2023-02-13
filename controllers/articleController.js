@@ -56,10 +56,18 @@ const store = async (req, res) => {
   });
 
   form.parse(req, (err, fields, files) => {
+    function takeImage() {
+      if (fields.image1.length !== 0) {
+        return fields.image1;
+      } else if (files.image !== null) {
+        return files.image.newFilename;
+      }
+    }
+
     Article.create({
       title: fields.title,
       content: fields.content,
-      image: files.image.newFilename,
+      image: takeImage(),
       author: fields.author,
     });
     console.log(fields);
@@ -76,25 +84,35 @@ const edit = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const articleId = req.params.id;
-  const editedArticleTitle = req.body.title;
-  const editedArticleContent = req.body.content;
-  const editedArticleImage = req.body.image;
-  const editedArticleAuthor = req.body.author;
+  const form = formidable({
+    multiples: true,
+    uploadDir: __dirname + "/../public/img",
+    keepExtensions: true,
+  });
 
-  await Article.update(
-    {
-      title: `${editedArticleTitle}`,
-      content: `${editedArticleContent}`,
-      image: `${editedArticleImage}`,
-      author: `${editedArticleAuthor}`,
-    },
-    {
-      where: { id: articleId },
+  form.parse(req, (err, fields, files) => {
+    function takeImage() {
+      if (fields.image1.length !== 0) {
+        return fields.image1;
+      } else {
+        return files.image.newFilename;
+      }
     }
-  );
 
-  return res.redirect("/admin");
+    const articleId = req.params.id;
+    Article.update(
+      {
+        title: fields.title,
+        content: fields.content,
+        image: takeImage(),
+        author: fields.author,
+      },
+      { where: { id: articleId } }
+    );
+    console.log(fields);
+    console.log(files);
+    return res.redirect("/admin");
+  });
 };
 
 const destroy = async (req, res) => {
