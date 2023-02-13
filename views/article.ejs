@@ -9,13 +9,26 @@
   </head>
   <body>
     <%- include("partials/navbar") %>
-    <div class="d-flex justify-content-center align-items-center" style="
+    <div class="d-flex justify-content-center align-items-center" 
+    <% if(article.dataValues.image.includes("http")) {%>
+      style="
       background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
       url('<%= article.image %>');
       background-repeat: no-repeat;
       background-size: cover;
       height: 50vh;
-      margin-top: 3.5rem;">
+      margin-top: 3.5rem;"
+      <% }  else {%>
+        style="
+      background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+      url('/img/<%= article.dataValues.image %>');
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 50vh;
+      margin-top: 3.5rem;"
+        <% } %>
+    
+    >
       <div class="d-flex flex-column">
         <h1 class="text-white text-center fw-bolder mb-3"><%= article.title %></h1>
         <p class="text-white text-center fs-5" style="font-family: 'Lora'; font-style: italic;" >

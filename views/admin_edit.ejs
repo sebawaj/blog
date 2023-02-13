@@ -12,7 +12,7 @@
     <div class="row gx-5 my-5 mx-4">
         <div id="formContainer" class="col col-lg-6 mx-auto ">
           <div class="p-3 rounded shadow-lg">
-            <form action="/admin/edit/<%=id%>" method="post">
+            <form action="/admin/edit/<%=id%>" method="post" enctype="multipart/form-data">
               <h2 class="mb-4">Edit article</h2>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label"
@@ -35,9 +35,10 @@
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Image (URL)</label>
+                <input type="text" name="image1" class="form-control mb-2">
                 <input
                   name="image"
-                  type="text"
+                  type="file"
                   class="form-control"
                   value="<%= article.image %>"
                   

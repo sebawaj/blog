@@ -25,6 +25,9 @@ Comment.belongsTo(User, { foreignKey: "user_id" });
 Article.hasMany(Comment, { foreignKey: "article_id" });
 Comment.belongsTo(Article, { foreignKey: "article_id" });
 
+Article.hasOne(User, { foreignKey: "user_id" });
+User.belongsTo(Article, { foreignKey: "user_id" });
+
 module.exports = {
   sequelize,
   User,
