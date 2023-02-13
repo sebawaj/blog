@@ -30,7 +30,8 @@
             </thead>
             <tbody>
               <% for(article of articles) {%>
-                <tr> <% for (key in article.dataValues) {%>
+                <tr> <% for (key in article) if (key !== "articleDate" && key !== "userData" ) { %> 
+
                   <% if (key === "content") { %>
                     <% const content = article[key] %>
                     <% const wordLimit = 10; %>
@@ -43,19 +44,19 @@
                       <td><img src="/img/<%=article[key]%>" width="100px" alt="Article image"></td>
                       <% } %>
                     <% } else if (key === "createdAt") { %>
-                      <td><%=articleDate.parsedCreatedAt%></td>
+                      <td><%=article.articleDate.parsedCreatedAt%></td>
                     <% } else if (key === "updatedAt") { %>
-                      <td><%=articleDate.parsedUpdatedAt%></td>
+                      <td><%=article.articleDate.parsedUpdatedAt%></td>
                      <%} else { %>
                     <td><%=article[key]%></td>
                     <% } %>
                     <% } %>  
                     <td class="d-flex flex-column">
-                      <a class="btn btn-primary px-2 mb-2 " href="admin/edit/<%=article.dataValues.id%>">Edit</a>
-                      <a class="btn btn-danger px-2" href="admin/delete/<%=article.dataValues.id%>">Remove</a>
+                      <a class="btn btn-primary px-2 mb-2 " href="admin/edit/<%=article.id%>">Edit</a>
+                      <a class="btn btn-danger px-2" href="admin/delete/<%=article.id%>">Remove</a>
                   </td>
                 </tr>
-           <% } %>
+                <% } %>
             </tbody>
           </table>
       </div>

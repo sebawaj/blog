@@ -11,27 +11,33 @@
     <%- include("partials/navbar") %>
     <div class="d-flex justify-content-center align-items-center" style="
       background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-      url('<%= article.dataValues.image %>');
+      url('<%= article.image %>');
       background-repeat: no-repeat;
       background-size: cover;
       height: 50vh;
       margin-top: 3.5rem;">
       <div class="d-flex flex-column">
-        <h1 class="text-white text-center fw-bolder mb-3"><%= article.dataValues.title %></h1>
-        <p class="text-white text-center fs-5" style="font-family: 'Lora'; font-style: italic;" ><%= `Created by ${article.dataValues.author} on ${articleDate.parsedCreatedAt}` %></p>
-      </div>
+        <h1 class="text-white text-center fw-bolder mb-3"><%= article.title %></h1>
+        <p class="text-white text-center fs-5" style="font-family: 'Lora'; font-style: italic;" >
+          <%  if (!!article.userData.firstName) { %>
+          <%= `Created by ${article.userData.firstName} ${article.userData.lastName} on ${article.articleDate.parsedCreatedAt}` %></p>
+
+          <% } else{ %>
+          <%= `Created by ${article.userData.username} on ${article.articleDate.parsedCreatedAt}` %></p>
+          <% } %>
+        </div>
     </div>
     
     <div class="row mx-auto mt-5">
       <div class="col-lg-8 mx-auto">
           <p style="font-family: 'Lora';" class="pt-3">
             <pre style="white-space: pre-wrap;
-            font-family: Helvetica Neue;" class="fs-6"><%= article.dataValues.content %></pre>
+            font-family: Helvetica Neue;" class="fs-6"><%= article.content %></pre>
           </p> 
         <div class="comment mb-1 mt-5 d-flex ">
           <h3>Add your comment</h3>
         </div>
-        <form action="/article/<%= article.dataValues.id %>/create-comment" method="post" id="commentForm" class="form-group mt-2">     
+        <form action="/article/<%= article.id %>/create-comment" method="post" id="commentForm" class="form-group mt-2">     
           <div>
             <input type="text" id="username" name="username" placeholder="Name" class="form-control mb-3" >
             <textarea id="comment" name="comment" placeholder="Write your comment..." class="form-control mb-3" style="height: 150px"></textarea>

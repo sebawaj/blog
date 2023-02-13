@@ -19,7 +19,10 @@ class Article extends Model {
           type: DataTypes.BLOB,
         },
         author: {
-          type: DataTypes.STRING,
+          type: DataTypes.BIGINT.UNSIGNED,
+        },
+        createdAt: {
+          type: DataTypes.DATE,
         },
       },
       {

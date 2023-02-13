@@ -1,17 +1,20 @@
+const { format } = require("date-fns");
+
 const Article = require("../models/Article");
 const Comment = require("../models/Comment");
 const User = require("../models/User");
 const formidable = require("formidable");
-const { format } = require("date-fns");
 
 const index = async (req, res) => {
   const articles = await Article.findAll();
+  const users = await User.findAll();
+
   const articleId = req.params.id;
   const currentUrl = req.originalUrl;
 
-  let articleDate = "";
+  const articlesData = [];
   for (article of articles) {
-    articleDate = {
+    const articleDate = {
       parsedCreatedAt: format(
         article.dataValues.createdAt,
         "MMMM do yyyy, h:mm:ss a"
@@ -21,14 +24,29 @@ const index = async (req, res) => {
         "MMMM do yyyy, h:mm:ss a"
       ),
     };
+
+    const userData = users.find(
+      (user) => user.dataValues.id === article.author
+    ).dataValues;
+
+    const articleFormatted = {
+      ...article.dataValues,
+      articleDate,
+      userData,
+    };
+
+    articlesData.push(articleFormatted);
   }
 
   if (currentUrl === "/admin") {
-    return res.render("admin", { articles, articleDate });
+    return res.render("admin", {
+      articles: articlesData,
+    });
   } else if (currentUrl === "/") {
-    return res.render("home", { articles, articleDate });
+    return res.render("home", { articles: articlesData });
   } else if (currentUrl === `/article/${articleId}`) {
     const article = await Article.findByPk(articleId);
+
     const comments = await Comment.findAll({
       where: { article_id: articleId },
       include: [
@@ -38,7 +56,29 @@ const index = async (req, res) => {
         },
       ],
     });
-    return res.render("article", { article, articleDate, comments });
+
+    const articleDate = {
+      parsedCreatedAt: format(
+        article.dataValues.createdAt,
+        "MMMM do yyyy, h:mm:ss a"
+      ),
+      parsedUpdatedAt: format(
+        article.dataValues.updatedAt,
+        "MMMM do yyyy, h:mm:ss a"
+      ),
+    };
+
+    const userData = users.find(
+      (user) => user.dataValues.id === article.author
+    ).dataValues;
+
+    const articleFormatted = {
+      ...article.dataValues,
+      articleDate,
+      userData,
+    };
+
+    return res.render("article", { article: articleFormatted, comments });
   } else if (currentUrl === "/api/articles") {
     return res.json({ articles });
   }
@@ -62,8 +102,7 @@ const store = async (req, res) => {
       image: files.image.newFilename,
       author: fields.author,
     });
-    console.log(fields);
-    console.log(files);
+
     return res.redirect("/admin");
   });
 };

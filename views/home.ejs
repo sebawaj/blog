@@ -19,10 +19,10 @@
     <div class="d-flex justify-content-center mt-5">
       <ul class="list-group-flush" style="width: 40rem;">
         <% for (const article of articles) { %>
-          <a href="/article/<%= article.dataValues.id %>" class="text-decoration-none text-black">
+          <a href="/article/<%= article.id %>" class="text-decoration-none text-black">
             <li class="list-group-item border-top pt-3">
-              <h2><%= article.dataValues.title%></h2>
-              <p style="font-family: 'Lora'; font-style: italic; color: #656565ca;" class="pt-3"><%= `Created by ${article.dataValues.author} on ${articleDate.parsedCreatedAt}` %></p>
+              <h2><%= article.title%></h2>
+              <p style="font-family: 'Lora'; font-style: italic; color: #656565ca;" class="pt-3"><%= `Created by ${article.userData.firstName} ${article.userData.lastName} on ${article.articleDate.parsedCreatedAt}` %></p>
             </li>
           </a>
         <% } %>
