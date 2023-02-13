@@ -1,6 +1,7 @@
 const Article = require("../models/Article");
 const Comment = require("../models/Comment");
 const User = require("../models/User");
+const formidable = require("formidable");
 const { format } = require("date-fns");
 
 const index = async (req, res) => {
@@ -48,19 +49,23 @@ const create = async (req, res) => {
 };
 
 const store = async (req, res) => {
-  const createdArticleTitle = req.body.title;
-  const createdArticleContent = req.body.content;
-  const createdArticleImage = req.body.image;
-  const createdArticleAuthor = req.body.author;
-
-  await Article.create({
-    title: `${createdArticleTitle}`,
-    content: `${createdArticleContent}`,
-    image: `${createdArticleImage}`,
-    author: `${createdArticleAuthor}`,
+  const form = formidable({
+    multiples: true,
+    uploadDir: __dirname + "/../public/img",
+    keepExtensions: true,
   });
 
-  return res.redirect("/admin");
+  form.parse(req, (err, fields, files) => {
+    Article.create({
+      title: fields.title,
+      content: fields.content,
+      image: files.image.newFilename,
+      author: fields.author,
+    });
+    console.log(fields);
+    console.log(files);
+    return res.redirect("/admin");
+  });
 };
 
 const edit = async (req, res) => {

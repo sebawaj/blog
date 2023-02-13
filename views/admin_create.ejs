@@ -12,7 +12,7 @@
     <div class="row gx-5 my-5 mx-4">
         <div id="formContainer" class="col col-lg-6 mx-auto ">
           <div class="p-3 rounded shadow-lg">
-            <form action="/admin" method="post">
+            <form action="/admin" method="post" enctype="multipart/form-data">
               <h2 class="mb-4">Create article</h2>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label"
@@ -33,12 +33,12 @@
                 ></textarea>
               </div>
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Image (URL)</label>
+                <label for="image" class="form-label">Image</label>
                 <input
+                  id="image"
                   name="image"
-                  type="text"
+                  type="file"
                   class="form-control"
-                  
                 />
               </div>
               <div class="mb-3">
