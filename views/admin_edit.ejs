@@ -23,6 +23,7 @@
                   type="text"
                   class="form-control"
                   value="<%=article.title%>"
+                  required
                 />
               </div>
               <div class="mb-3">
@@ -31,6 +32,7 @@
                   name="content"
                   type="text"
                   class="form-control"
+                  required
                 ><%=article.content%></textarea>
               </div>
               <div class="mb-3">
@@ -42,6 +44,7 @@
                   class="form-control"
                   value="<%= article.image %>"
                   
+                  
                 />
               </div>
               <div class="mb-3">
@@ -51,6 +54,7 @@
                   type="text"
                   class="form-control"
                   value="<%= article.author %>"
+                  required
                 />
               </div>
               <button

@@ -8,7 +8,7 @@ module.exports = async () => {
   const articles = [];
   const users = [];
 
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 5; i++) {
     users.push({
       username: faker.internet.userName(),
       firstName: faker.name.firstName(),
@@ -21,7 +21,7 @@ module.exports = async () => {
 
   const usersLoaded = await User.findAll();
 
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 5; i++) {
     articles.push({
       title: faker.lorem.sentence(5),
       content: faker.lorem.paragraphs(5, "\n\n"),

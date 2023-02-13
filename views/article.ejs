@@ -50,10 +50,10 @@
         <div class="comment mb-1 mt-5 d-flex ">
           <h3>Add your comment</h3>
         </div>
-        <form action="/article/<%= article.id %>/create-comment" method="post" id="commentForm" class="form-group mt-2">     
+        <form  action="/article/<%= article.id %>/create-comment" method="post" id="commentForm" class="form-group mt-2">     
           <div>
-            <input type="text" id="username" name="username" placeholder="Name" class="form-control mb-3" >
-            <textarea id="comment" name="comment" placeholder="Write your comment..." class="form-control mb-3" style="height: 150px"></textarea>
+            <input  required type="text" id="username" name="username" placeholder="Name" class="form-control mb-3" >
+            <textarea   required id="comment" name="comment" placeholder="Write your comment..." class="form-control mb-3" style="height: 150px"></textarea>
             <div class="d-grid gap-2">
               <button type="submit" name="submit" class="btn-primary btn mb-5">Send</button>
             </div>
