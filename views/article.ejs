@@ -10,7 +10,7 @@
   <body>
     <%- include("partials/navbar") %>
     <div class="d-flex justify-content-center align-items-center" 
-    <% if(article.dataValues.image.includes("http")) {%>
+    <% if(article.image.includes("http")) {%>
       style="
       background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
       url('<%= article.image %>');
@@ -21,7 +21,7 @@
       <% }  else {%>
         style="
       background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-      url('/img/<%= article.dataValues.image %>');
+      url('/img/<%= article.image %>');
       background-repeat: no-repeat;
       background-size: cover;
       height: 50vh;
