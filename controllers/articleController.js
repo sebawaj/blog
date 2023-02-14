@@ -1,13 +1,10 @@
 const Article = require("../models/Article");
-const Comment = require("../models/Comment");
-const User = require("../models/User");
 const formidable = require("formidable");
 const { format } = require("date-fns");
 
 const index = async (req, res) => {
   const articles = await Article.findAll();
   const articleId = req.params.id;
-  const currentUrl = req.originalUrl;
 
   let articleDate = [];
   for (article of articles) {
@@ -23,36 +20,7 @@ const index = async (req, res) => {
     });
   }
 
-  if (currentUrl === "/admin") {
-    return res.render("admin", { articles, articleDate, articleId });
-  } else if (currentUrl === "/") {
-    return res.render("home", { articles, articleDate });
-  } else if (currentUrl === `/article/${articleId}`) {
-    const article = await Article.findByPk(articleId);
-    const parsedArticleDates = {
-      parsedCreatedAt: format(
-        article.dataValues.createdAt,
-        "MMMM do yyyy, h:mm:ss a"
-      ),
-      parsedUpdatedAt: format(
-        article.dataValues.updatedAt,
-        "MMMM do yyyy, h:mm:ss a"
-      ),
-    };
-    const comments = await Comment.findAll({
-      where: { article_id: articleId },
-      include: User,
-    });
-
-    return res.render("article", {
-      articles,
-      article,
-      parsedArticleDates,
-      comments,
-    });
-  } else if (currentUrl === "/api/articles") {
-    return res.json({ articles });
-  }
+  return res.render("admin", { articles, articleDate, articleId });
 };
 
 const create = (req, res) => {
