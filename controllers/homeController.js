@@ -24,6 +24,7 @@ const index = async (req, res) => {
 
 const articles = async (req, res) => {
   const article = await Article.findByPk(req.params.id);
+
   const parsedArticleDates = {
     parsedCreatedAt: format(
       article.dataValues.createdAt,

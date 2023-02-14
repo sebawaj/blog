@@ -1,10 +1,11 @@
-const Article = require("../models/Article");
+const { Article, User } = require("../models");
 const formidable = require("formidable");
 const { format } = require("date-fns");
 
 const index = async (req, res) => {
   const articles = await Article.findAll();
   const articleId = req.params.id;
+  const articlesUsers = await Article.findAll({ include: User });
 
   let articleDate = [];
   for (article of articles) {
@@ -20,7 +21,12 @@ const index = async (req, res) => {
     });
   }
 
-  return res.render("admin", { articles, articleDate, articleId });
+  return res.render("admin", {
+    articles,
+    articlesUsers,
+    articleDate,
+    articleId,
+  });
 };
 
 const create = (req, res) => {
@@ -43,12 +49,17 @@ const store = (req, res) => {
   });
 
   form.parse(req, async (err, fields, files) => {
+    const author = await User.create({
+      username: fields.author,
+    });
+
     await Article.create({
       title: fields.title,
       content: fields.content,
       image: getImage(fields, files),
-      author: fields.author,
+      user_id: author.id,
     });
+
     return res.redirect("/admin");
   });
 };

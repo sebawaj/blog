@@ -18,9 +18,6 @@ class Article extends Model {
         image: {
           type: DataTypes.BLOB,
         },
-        author: {
-          type: DataTypes.STRING,
-        },
       },
       {
         sequelize,

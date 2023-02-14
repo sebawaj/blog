@@ -29,7 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-              <% for(article of articles) {%>
+              <% for(article of articlesUsers) {%>
                 <tr>
                     <td><%= article.id %></td>
                     <td><%= article.title %></td>
@@ -41,9 +41,9 @@
                         <% }  else {%>
                           <td><img src="/img/<%=article.image%>" width="100px" alt="Article image"></td>
                           <% } %>
-                      <td><%= article.author %></td>
-                      <td><%=articleDate[articles.indexOf(article)].parsedCreatedAt%></td>
-                      <td><%=articleDate[articles.indexOf(article)].parsedUpdatedAt%></td>
+                      <td><%= article.user.username %></td>
+                      <td><%=articleDate[articlesUsers.indexOf(article)].parsedCreatedAt%></td>
+                      <td><%=articleDate[articlesUsers.indexOf(article)].parsedUpdatedAt%></td>
                       <td class="d-flex flex-column">
                         <a class="btn btn-primary px-2 mb-2 " href="admin/edit/<%=article.id%>">Edit</a>
                         <a class="btn btn-danger px-2" href="admin/delete/<%=article.id%>">Remove</a>

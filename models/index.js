@@ -19,14 +19,11 @@ User.initModel(sequelize);
 Comment.initModel(sequelize);
 Article.initModel(sequelize);
 
-User.hasMany(Comment, { foreignKey: "user_id" });
-Comment.belongsTo(User, { foreignKey: "user_id" });
+Article.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Article, { foreignKey: "user_id" });
 
 Article.hasMany(Comment, { foreignKey: "article_id" });
 Comment.belongsTo(Article, { foreignKey: "article_id" });
-
-Article.hasOne(User, { foreignKey: "user_id" });
-User.belongsTo(Article, { foreignKey: "user_id" });
 
 module.exports = {
   sequelize,
