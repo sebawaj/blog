@@ -66,7 +66,7 @@ const store = (req, res) => {
 
 const edit = async (req, res) => {
   const { id } = req.params;
-  const article = await Article.findByPk(id);
+  const article = await Article.findByPk(id, { include: User });
 
   return res.render("admin_edit", { id, article });
 };

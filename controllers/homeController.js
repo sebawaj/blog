@@ -26,18 +26,11 @@ const articles = async (req, res) => {
   const article = await Article.findByPk(req.params.id);
 
   const parsedArticleDates = {
-    parsedCreatedAt: format(
-      article.dataValues.createdAt,
-      "MMMM do yyyy, h:mm:ss a"
-    ),
-    parsedUpdatedAt: format(
-      article.dataValues.updatedAt,
-      "MMMM do yyyy, h:mm:ss a"
-    ),
+    parsedCreatedAt: format(article.createdAt, "MMMM do yyyy, h:mm:ss a"),
+    parsedUpdatedAt: format(article.updatedAt, "MMMM do yyyy, h:mm:ss a"),
   };
   const comments = await Comment.findAll({
     where: { article_id: req.params.id },
-    include: User,
   });
 
   return res.render("article", {
