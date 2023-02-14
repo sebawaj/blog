@@ -9,9 +9,27 @@ const index = async (req, res) => {
   const articleId = req.params.id;
   const currentUrl = req.originalUrl;
 
-  let articleDate = "";
+  let articleDate = [];
   for (article of articles) {
-    articleDate = {
+    articleDate.push({
+      parsedCreatedAt: format(
+        article.dataValues.createdAt,
+        "MMMM do yyyy, h:mm:ss a"
+      ),
+      parsedUpdatedAt: format(
+        article.dataValues.updatedAt,
+        "MMMM do yyyy, h:mm:ss a"
+      ),
+    });
+  }
+
+  if (currentUrl === "/admin") {
+    return res.render("admin", { articles, articleDate, articleId });
+  } else if (currentUrl === "/") {
+    return res.render("home", { articles, articleDate });
+  } else if (currentUrl === `/article/${articleId}`) {
+    const article = await Article.findByPk(articleId);
+    const parsedArticleDates = {
       parsedCreatedAt: format(
         article.dataValues.createdAt,
         "MMMM do yyyy, h:mm:ss a"
@@ -21,63 +39,54 @@ const index = async (req, res) => {
         "MMMM do yyyy, h:mm:ss a"
       ),
     };
-  }
-
-  if (currentUrl === "/admin") {
-    return res.render("admin", { articles, articleDate });
-  } else if (currentUrl === "/") {
-    return res.render("home", { articles, articleDate });
-  } else if (currentUrl === `/article/${articleId}`) {
-    const article = await Article.findByPk(articleId);
     const comments = await Comment.findAll({
       where: { article_id: articleId },
-      include: [
-        {
-          model: User,
-          as: "user",
-        },
-      ],
+      include: User,
     });
-    return res.render("article", { article, articleDate, comments });
+
+    return res.render("article", {
+      articles,
+      article,
+      parsedArticleDates,
+      comments,
+    });
   } else if (currentUrl === "/api/articles") {
     return res.json({ articles });
   }
 };
 
-const create = async (req, res) => {
+const create = (req, res) => {
   return res.render("admin_create");
 };
 
-const store = async (req, res) => {
+function getImage(fields, files) {
+  if (fields.image1.length !== 0) {
+    return fields.image1;
+  } else if (files.image !== null) {
+    return files.image.newFilename;
+  }
+}
+
+const store = (req, res) => {
   const form = formidable({
     multiples: true,
     uploadDir: __dirname + "/../public/img",
     keepExtensions: true,
   });
 
-  form.parse(req, (err, fields, files) => {
-    function takeImage() {
-      if (fields.image1.length !== 0) {
-        return fields.image1;
-      } else if (files.image !== null) {
-        return files.image.newFilename;
-      }
-    }
-
-    Article.create({
+  form.parse(req, async (err, fields, files) => {
+    await Article.create({
       title: fields.title,
       content: fields.content,
-      image: takeImage(),
+      image: getImage(fields, files),
       author: fields.author,
     });
-    console.log(fields);
-    console.log(files);
     return res.redirect("/admin");
   });
 };
 
 const edit = async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   const article = await Article.findByPk(id);
 
   return res.render("admin_edit", { id, article });
@@ -91,26 +100,16 @@ const update = async (req, res) => {
   });
 
   form.parse(req, (err, fields, files) => {
-    function takeImage() {
-      if (fields.image1.length !== 0) {
-        return fields.image1;
-      } else {
-        return files.image.newFilename;
-      }
-    }
-
     const articleId = req.params.id;
     Article.update(
       {
         title: fields.title,
         content: fields.content,
-        image: takeImage(),
+        image: getImage(fields, files),
         author: fields.author,
       },
       { where: { id: articleId } }
     );
-    console.log(fields);
-    console.log(files);
     return res.redirect("/admin");
   });
 };

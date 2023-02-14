@@ -22,7 +22,7 @@
           <a href="/article/<%= article.dataValues.id %>" class="text-decoration-none text-black">
             <li class="list-group-item border-top pt-3">
               <h2><%= article.dataValues.title%></h2>
-              <p style="font-family: 'Lora'; font-style: italic; color: #656565ca;" class="pt-3"><%= `Created by ${article.dataValues.author} on ${articleDate.parsedCreatedAt}` %></p>
+              <p style="font-family: 'Lora'; font-style: italic; color: #656565ca;" class="pt-3"><%= `Created by ${article.dataValues.author} on ${articleDate[articles.indexOf(article)].parsedCreatedAt}` %></p>
             </li>
           </a>
         <% } %>

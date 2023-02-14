@@ -31,7 +31,7 @@
     >
       <div class="d-flex flex-column">
         <h1 class="text-white text-center fw-bolder mb-3"><%= article.dataValues.title %></h1>
-        <p class="text-white text-center fs-5" style="font-family: 'Lora'; font-style: italic;" ><%= `Created by ${article.dataValues.author} on ${articleDate.parsedCreatedAt}` %></p>
+        <p class="text-white text-center fs-5" style="font-family: 'Lora'; font-style: italic;" ><%= `Created by ${article.dataValues.author} on ${parsedArticleDates.parsedCreatedAt}` %></p>
       </div>
     </div>
     
@@ -41,6 +41,7 @@
             <pre style="white-space: pre-wrap;
             font-family: Helvetica Neue;" class="fs-6"><%= article.dataValues.content %></pre>
           </p> 
+          <p class="text-secondary mt-4" style="font-size: 0.85rem;" >Last updated: <%= parsedArticleDates.parsedUpdatedAt %></p>
         <div class="comment mb-1 mt-5 d-flex ">
           <h3>Add your comment</h3>
         </div>

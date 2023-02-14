@@ -23,6 +23,7 @@
                   type="text"
                   class="form-control"
                   value="<%=article.dataValues.title%>"
+                  required
                 />
               </div>
               <div class="mb-3">
@@ -31,10 +32,11 @@
                   name="content"
                   type="text"
                   class="form-control"
+                  required
                 ><%=article.dataValues.content%></textarea>
               </div>
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Image (URL)</label>
+                <label for="exampleInputEmail1" class="form-label">Image</label>
                 <input type="text" name="image1" class="form-control mb-2">
                 <input
                   name="image"
@@ -51,6 +53,7 @@
                   type="text"
                   class="form-control"
                   value="<%= article.dataValues.author %>"
+                  required
                 />
               </div>
               <button
